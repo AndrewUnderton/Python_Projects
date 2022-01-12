@@ -23,6 +23,7 @@ RunPrintBoxLabel - Takes Pallet #, prints labels for all the units associated wi
 RunTransferManager - Takes Box IDs, transfers them to a pallet.
 RunFindOddOneOut - Takes Box IDs, spin-off of RunTransferManager. Scan a group of units and script will tell
 		   which ones aren't on the specified pallet.
+Any scripts that don't have "Run" in front of them are modules that the main scripts use as dependencies. Do not try to run them separately.
 
 STEPS TO RUN:
 1. Install Anaconda from the link below. This is what installs Python and gives a good interface.
