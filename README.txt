@@ -1,3 +1,20 @@
+"""These scripts were created to automate inventory workflows for Hewlett-Packard Inc.
+in Bentonville, AR. They were written in Python utilizing the Pandas, Selenium,
+and GetPass libraries. Links and certain of bits of code have been changed to 
+psuedocode to keep the business' information private.
+
+--GLOSSARY--
+CST - Central Staging Tools. In-house program for managing inventory, repairs, orders, and shipping.
+Unit - can be anything from desktop computers, laptops, thin clients, servers, monitors, and other peripherals.
+Box ID - In-house designator for individual units, similar to a serial number.
+Putaway - The final status in inventory signaling that a unit has been wiped, imaged, and repairs and ready for shipping.
+Transfer - Units come in by the pallet without much order. These pallets have IDs, and more must be created as the units
+           are split into their respective groups. Each unit needs to be put onto the correct pallet and have its location
+	   changed in CST.
+
+The rest of this README is what was given to employees to help understand how to run the scripts.
+"""
+
 Steps and tips for allowing the CST Automation scripts to run correctly.
 
 SCRIPTS:
@@ -44,5 +61,5 @@ Delete Cell: 'D','D'
 Restart Kernel: '0','0' <---Those are zeros
 
 
-Scripts written by Andrew Overton, JAN/07/2022. 
-If you'd like to contract help in troubleshooting or adding to these scripts, contact at AndrewRobOverton@gmail.com
+Scripts written by Andrew Overton, JAN/2022. 
+If you'd like to contract help in troubleshooting or adding to these scripts, contact at *EMAIL*
