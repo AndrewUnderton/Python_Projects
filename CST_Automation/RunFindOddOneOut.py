@@ -18,6 +18,8 @@ from selenium.webdriver.common.by import By
 
 from login_automation import login_automation
 
+"""This script was written by Andrew Overton, January 2022."""
+
 # This program is to find, alert of, and update any units which are not in the pallet that have been listed.
 # Enter the correct pallet # and location, and any that don't match that pallet # will be highlighted for you.
 # It was built off of an earlier version of the transfer_automation module with slightly different utilization.
@@ -86,7 +88,7 @@ for dict_index in boxids_and_info:
     if unit_pallet == new_pallet:
         continue
     else:
-        input("Found one that doensn't match! Its Box ID is: " + grab_id + " press ENTER to fix it and continue looking. ")
+        input("Found one that doesn't match! Its Box ID is: " + grab_id + " press ENTER to fix it and continue looking. ")
         # Find the CSS button to open the options for this unit, and click the button
         find_next = driver.find_element(By.XPATH,'/html/body/section[2]/div/div[2]/div/div/div/table/tbody/tr/td[1]/div/a[1]')
         find_next.click()
@@ -107,7 +109,7 @@ for dict_index in boxids_and_info:
         try:
             WebDriverWait(driver, 60).until(EC.url_to_be('https://w16kcst2.int.hp.com/Warehouse/StockTransfer?firstload=true'))
         except:
-            print("This has taken to long")
+            print("This has taken to long. Internet might be down.")
             input("Press ENTER to continue once the page has loaded (or quit and restart from " + grab_id + "): ")
         dict_index['New Pallet'] = new_pallet
         dict_index['New Location'] = new_location

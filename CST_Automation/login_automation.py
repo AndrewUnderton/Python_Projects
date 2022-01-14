@@ -13,6 +13,9 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+"""This script was written by Andrew Overton, January 2022."""
+
+
 def login_automation(s, driver):
     """Take input from user and Chrome driver from main script. Attempt to login to CST with that information."""
     cst_login_url = "https://w16kcst2.int.hp.com/"
@@ -35,7 +38,7 @@ def login_automation(s, driver):
         find_login.click();
         # If Chrome doesn't go to the change log screen after trying to log in, that means it failed, so try again.
         try:
-            WebDriverWait(driver, 4).until(EC.url_to_be('https://w16kcst2.int.hp.com/ChangeLog'))
+            WebDriverWait(driver, 6).until(EC.url_to_be('https://w16kcst2.int.hp.com/ChangeLog'))
             need_login == False
             print('Login successful!')
             break

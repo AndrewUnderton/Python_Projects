@@ -18,10 +18,10 @@ from pendputaway_automation import pendputaway_automation
 from login_automation import login_automation
 from transfer_automation import transfer_automation
 
+"""This script was written by Andrew Overton, January 2022."""
+
 # Get current working directory (relative file path)
 relative_path = os.getcwd()
-
-receiving_url = 'https://w16kcst2.int.hp.com/Rec/Putaway?boxID='
 
 # Initiate Chrome driver
 s=Service(relative_path + '\chromedriver.exe')
@@ -31,17 +31,23 @@ driver = webdriver.Chrome(service=s)
 login_automation(s,driver)
 
 # Ask for the pallet number and location the user wants to migrate the units towards.
-new_pallet = input("Pallet # (If you want to generate one, type 'generate'): ")
+check_pallet = True
+while check_pallet == True:
+    new_pallet = input("Pallet # (If you want to generate one, type 'generate'): ")
+    if new_pallet.lower() == 'generate':
+        generate_bool = True
+        print("New pallet number will be generated.")
+        check_pallet = False
+    elif new_pallet == '':
+        print("No input detected. Try Again. ")
+    elif new_pallet.isnumeric() == True:
+        generate_bool = False
+        check_pallet = False
+    else:
+        print("Invalid Input. Try Again. ")
 new_location = input('Pallet Location: ')
 
-if new_pallet.lower() == 'generate':
-    generate_bool = True
-    print("New pallet number will be generated.")
-else:
-    generate_bool = False
-    pass
-
-# Turn on or off "putaway" status reporting and updating.
+# Turn on or off "putaway" status reporting.
 report_input = True
 while report_input == True:
     report_putaway_ask = input("Would you like to have the putaway status of units reported (yes/no)? ")
@@ -49,13 +55,28 @@ while report_input == True:
     report_putaway = False
     if report_putaway_ask == 'yes':
         report_putaway = True
-        print("Putaway status will be shown.\nIf any are in Putaway or Pendputaway status, you'll be able to fix them later in this program")
+        print("Putaway status will be shown.")
         report_input = False
     elif report_putaway_ask == 'no':
-        print('Putaway status will not be shown or corrected.')
+        print('Putaway status will not be shown.')
         report_input = False
     else:
-        print('Invalid input, try again.')
+        print('Invalid input. Try again.')
+# Turn on or off "putaway" status updating.
+update_input = True
+while update_input == True:
+    update_putaway_ask = input("Would you like to have the putaway status of units updated (yes/no)? ")
+    update_putaway_ask = update_putaway_ask.lower()
+    update_putaway = False
+    if update_putaway_ask == 'yes':
+        update_putaway = True
+        print("Putaway status will be corrected.")
+        update_input = False
+    elif update_putaway_ask == 'no':
+        print('Putaway status will not be corrected.')
+        update_input = False
+    else:
+        print('Invalid input. Try again.')
 
 print('Enter "quit" to continue to the next step or "remove" to delete the last entry')        
 active_input = True
@@ -84,7 +105,7 @@ while active_input:
 transfer_automation(boxids_and_info, report_putaway, new_pallet, new_location, s, driver,generate_bool)
 
 # Change status to putaway and update boxids_and_info with the new status.
-if report_putaway == True:
+if update_putaway == True:
     for dict_index in boxids_and_info:
         if dict_index['Prev Status'].lower() == 'putawayready':
             putaway_automation(dict_index['Box ID'],s,driver)
@@ -93,6 +114,8 @@ if report_putaway == True:
             pendputaway_automation(dict_index['Box ID'],new_pallet,new_location,s,driver)
             putaway_automation(dict_index['Box ID'],s,driver)
             dict_index['New Status'] = 'Putaway'
+        else:
+            pass
 
 # Close Chrome instance.
 driver.close()

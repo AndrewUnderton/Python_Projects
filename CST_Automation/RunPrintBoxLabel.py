@@ -21,13 +21,15 @@ from itertools import islice
 
 from login_automation import login_automation
 
+"""This script was written by Andrew Overton, January 2022."""
+
 # Get current working directory (relative file path)
 relative_path = os.getcwd()
 
 # Read the BoxIDs from the excel file being used and convert to an easy-to-read list.
 # UPDATE: These three lines are no longer necessary because IDs are now grabbed 
 # directly from Transfer Manager.
-# Also, Excel decided I needed an account after 1 month so I had to turn this part off.
+# Also, Excel decided I needed an account after 1 month so I had to keep this part off.
 #print_table = pd.read_excel(relative_path + '\Reports\PyPrintReference.xlsx')
 #print_table = print_table.fillna("")
 #print_list = print_table['BoxIDs'].tolist()
@@ -38,15 +40,27 @@ driver = webdriver.Chrome(service=s)
 
 # Run through the local login_automation module.
 login_automation(s,driver)
- 
+
+# Ask for pallet number while making sure the response is an appropriate answer.
+check_pallet = True
+while check_pallet == True:
+    pallet_number = input("Pallet #: ")
+    if pallet_number == '':
+        print("No input detected. Try Again. ")
+    elif pallet_number.isnumeric() == True:
+        generate_bool = False
+        check_pallet = False
+    else:
+        print("Invalid Input. Try Again. ")
+
 # Go to the Transfer Manager page for the inputted pallet number.
 transfer_url = 'https://w16kcst2.int.hp.com/Warehouse/StockTransfer?boxID=&pallet=' + str(pallet_number)
 driver.get(transfer_url)
-more_page = True
-current_page = 1
-box_ids = []
 
 # Grab all the Box IDs saved to the pallet number in Transfer Manager.
+current_page = 1
+box_ids = []
+more_page = True
 while more_page == True:
     print('Currently reading page ' + str(current_page))
     # Find the total number of rows in the table of Box IDs in Transfer Manager.
@@ -85,7 +99,7 @@ while num != num_done:
                 lookup_url = "https://w16kcst2.int.hp.com/Warehouse/Lookup?BoxID=" + str(int(i))
                 driver.get(lookup_url)
                 # Find the printer button and click it
-                printer = driver.find_element(By.TITLE, 'Print Label')
+                printer = driver.find_element(By.CLASS_NAME, 'mdi-printer')
                 printer.click()
                 # There is a second prompt afterwards that confirms if you want to print. Click yes.
                 printer_ok = driver.find_element(By.ID, "btnPrintBox")
@@ -104,7 +118,7 @@ while num != num_done:
                 lookup_url = "https://w16kcst2.int.hp.com/Warehouse/Lookup?BoxID=" + str(int(i))
                 driver.get(lookup_url)
                 # Find the printer button and click it
-                printer = driver.find_element(By.TITLE,'Print Label')
+                printer = driver.find_element(By.CLASS_NAME,'mdi-printer')
                 printer.click()
                 # There is a second prompt afterwards that confirms if you want to print. Click yes.
                 printer_ok = driver.find_element(By.ID, "btnPrintBox")

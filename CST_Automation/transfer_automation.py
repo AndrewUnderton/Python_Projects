@@ -11,6 +11,8 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+"""This script was written by Andrew Overton, January 2022."""
+
 
 def transfer_automation(boxids_and_info,report_putaway,new_pallet,new_location,s,driver,generate_bool):
     """Take the list of dictionaries of units from the main script,
@@ -73,7 +75,7 @@ def transfer_automation(boxids_and_info,report_putaway,new_pallet,new_location,s
             try:
                 WebDriverWait(driver, 60).until(EC.url_to_be('https://w16kcst2.int.hp.com/Warehouse/StockTransfer?firstload=true'))
             except:
-                print("This has taken to long")
+                print("This has taken to long. Internet might be down.")
                 input("Press ENTER to continue once the page has loaded (or quit and restart from " + grab_id + "): ")
             # Save the new locations in the dictionary entry for this unit.
             dict_index['New Pallet'] = gen_pallet
@@ -100,7 +102,7 @@ def transfer_automation(boxids_and_info,report_putaway,new_pallet,new_location,s
             try:
                 WebDriverWait(driver, 60).until(EC.url_to_be('https://w16kcst2.int.hp.com/Warehouse/StockTransfer?firstload=true'))
             except:
-                print("This has taken to long")
+                print("This has taken to long. Internet might be down.")
                 input("Press ENTER to continue once the page has loaded (or quit and restart from " + grab_id + "): ")
             # Save the new locations in the dictionary entry for this unit.
             dict_index['New Pallet'] = new_pallet

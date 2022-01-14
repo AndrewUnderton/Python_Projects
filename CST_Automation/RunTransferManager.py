@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import time
@@ -19,6 +19,7 @@ from selenium.webdriver.chrome.service import Service
 from login_automation import login_automation
 from transfer_automation import transfer_automation
 
+"""This script was written by Andrew Overton, January 2022."""
 
 # Get current working directory (relative file path)
 relative_path = os.getcwd()
@@ -27,15 +28,21 @@ relative_path = os.getcwd()
 login_automation(s,driver)
 
 # Ask for the pallet number and location the user wants to migrate the units towards.
-new_pallet = input("Pallet # (If you want to generate one, type 'generate'): ")
+check_pallet = True
+while check_pallet == True:
+    new_pallet = input("Pallet # (If you want to generate one, type 'generate'): ")
+    if new_pallet.lower() == 'generate':
+        generate_bool = True
+        print("New pallet number will be generated.")
+        check_pallet = False
+    elif new_pallet == '':
+        print("No input detected. Try Again. ")
+    elif new_pallet.isnumeric() == True:
+        generate_bool = False
+        check_pallet = False
+    else:
+        print("Invalid Input. Try Again. ")
 new_location = input('Pallet Location: ')
-
-if new_pallet.lower() == 'generate':
-    generate_bool = True
-    print("New pallet number will be generated.")
-else:
-    generate_bool = False
-    pass
 
 # Turn on or off "putaway" status reporting.
 report_input = True

@@ -11,6 +11,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
+"""This script was written by Andrew Overton, January 2022."""
+
 
 def putaway_automation(boxid, s, driver):
     """Take the Box IDs which are given by the user in the main scripts, and put the units into Putaway status."""
@@ -68,7 +70,7 @@ def putaway_automation(boxid, s, driver):
         for options in ddelement.options:
             print(options.text)
             memories.append(options.text)
-        memory_input = input("Please select one of the options. If the option isn't present, type REFRESH")
+        memory_input = input("Please select one of the options. If the option isn't present, type REFRESH. ")
         if memory_input.lower() == 'refresh':
             input('Please go to Project Part Admin and add the appropriate memory. Press ENTER when complete: ')
             valid_condition = True 
@@ -88,9 +90,9 @@ def putaway_automation(boxid, s, driver):
         for options in ddelement.options:
             print(options.text)
             harddrives.append(options.text)
-        drive_input = input("Please select one of the options. If the option isn't present, type REFRESH ")
+        drive_input = input("Please select one of the options. If the option isn't present, type REFRESH. ")
         if drive_input.lower() == 'refresh':
-            input('Please go to Project Part Admin and add the appropriate memory. Press ENTER when complete: ')
+            input('Please go to Project Part Admin and add the appropriate drive size. Press ENTER when complete: ')
             valid_condition = True 
             driver.get(putaway_url)
         elif drive_input in harddrives:
@@ -105,6 +107,6 @@ def putaway_automation(boxid, s, driver):
     try:
         WebDriverWait(driver, 60).until(EC.url_to_be('https://w16kcst2.int.hp.com/ARDT/Putaway?boxID=' + boxid))
     except:
-        print("This is taking too long.")
+        print("This is taking too long. Internet might be down.")
         input("Press ENTER once status has finished saving.")
 
